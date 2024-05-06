@@ -1,22 +1,23 @@
-const express = require('express')
-const router = express.Router()
-const userController = require('../controllers/userController')
-const tokenValidation = require('../middleware/tokenValidation')
+import express from 'express';
+import * as userController from '../controllers/userController.js';
+import validateToken from '../middleware/tokenValidation.js';
 
-router.post('/signup', userController.createUser)
+const router = express.Router();
 
-router.post('/login', userController.loginUser)
+router.post('/signup', userController.createUser);
+
+router.post('/login', userController.loginUser);
 
 router.post(
   '/profile',
-  tokenValidation.validateToken,
+  validateToken, // Make sure validateToken is imported correctly
   userController.getUserProfile
-)
+);
 
 router.put(
   '/profile',
-  tokenValidation.validateToken,
+  validateToken, // Make sure validateToken is imported correctly
   userController.updateUserProfile
-)
+);
 
-module.exports = router
+export default router;

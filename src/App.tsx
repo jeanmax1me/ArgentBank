@@ -1,35 +1,104 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import React from "react";
+import { useNavigate } from 'react-router-dom';
 
-function App() {
-  const [count, setCount] = useState(0)
-
+const MainNav: React.FC = () => {
+  const navigate = useNavigate();
+  const handleSignInClick = () => {
+    navigate('/sign-in'); // Navigate to the sign-in route
+  };
   return (
-    <>
+    <nav className="main-nav">
+      <a className="main-nav-logo" href="./index.html">
+        <img
+          className="main-nav-logo-image"
+          src="./img/argentBankLogo.png"
+          alt="Argent Bank Logo"
+        />
+        <h1 className="sr-only">Argent Bank</h1>
+      </a>
       <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
+        <a className="main-nav-item" onClick={handleSignInClick}>
+          <i className="fa fa-user-circle"></i>
+          Sign In
         </a>
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
+    </nav>
+  );
+};
+
+const Hero: React.FC = () => {
+  return (
+    <div className="hero bg-hero-image h-hero-height bg-cover bg-center">
+      <section className="hero-content mx-auto w-80 rounded-lg bg-white p-8 text-left">
+        <h2 className="sr-only">Promoted Content</h2>
+        <p className="subtitle">No fees.</p>
+        <p className="subtitle">No minimum deposit.</p>
+        <p className="subtitle">High interest rates.</p>
+        <p className="text">Open a savings account with Argent Bank today!</p>
+      </section>
+    </div>
+  );
+};
+
+const Features: React.FC = () => {
+  return (
+    <section className="features flex flex-col md:flex-row">
+      <div className="feature-item flex-1 p-10">
+        <img
+          src="./img/icon-chat.png"
+          alt="Chat Icon"
+          className="feature-icon"
+        />
+        <h3 className="feature-item-title">You are our #1 priority</h3>
         <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
+          Need to talk to a representative? You can get in touch through our
+          24/7 chat or through a phone call in less than 5 minutes.
         </p>
       </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
-}
+      <div className="feature-item flex-1 p-10">
+        <img
+          src="./img/icon-money.png"
+          alt="Chat Icon"
+          className="feature-icon"
+        />
+        <h3 className="feature-item-title">More savings means higher rates</h3>
+        <p>The more you save with us, the higher your interest rate will be!</p>
+      </div>
+      <div className="feature-item flex-1 p-10">
+        <img
+          src="./img/icon-security.png"
+          alt="Chat Icon"
+          className="feature-icon"
+        />
+        <h3 className="feature-item-title">Security you can trust</h3>
+        <p>
+          We use top of the line encryption to make sure your data and money is
+          always safe.
+        </p>
+      </div>
+    </section>
+  );
+};
 
-export default App
+const Footer: React.FC = () => {
+  return (
+    <footer className="footer flex justify-center border-t-2 border-gray-400 pt-8">
+      <p className="footer-text">Copyright 2020 Argent Bank</p>
+    </footer>
+  );
+};
+
+const Home: React.FC = () => {
+  return (
+    <React.Fragment>
+      <MainNav />
+      <main>
+        <Hero />
+        <Features />
+      </main>
+      <Footer />
+    </React.Fragment>
+  );
+};
+
+export default Home;

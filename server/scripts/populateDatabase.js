@@ -1,4 +1,4 @@
-const axios = require('axios')
+import axios from 'axios'
 const signupApi = 'http://localhost:3001/api/v1/user/signup'
 
 const users = [

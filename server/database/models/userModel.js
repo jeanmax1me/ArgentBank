@@ -1,6 +1,8 @@
-const mongoose = require('mongoose')
+import mongoose from 'mongoose';
 
-const userSchema = new mongoose.Schema(
+const { Schema } = mongoose;
+
+const userSchema = new Schema(
   {
     email: String,
     password: String,
@@ -10,6 +12,7 @@ const userSchema = new mongoose.Schema(
   {
     timestamps: true,
     toObject: {
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       transform: (doc, ret, options) => {
         ret.id = ret._id
         delete ret._id
@@ -19,6 +22,8 @@ const userSchema = new mongoose.Schema(
       }
     }
   }
-)
+);
 
-module.exports = mongoose.model('User', userSchema)
+const User = mongoose.model('User', userSchema);
+
+export default User;

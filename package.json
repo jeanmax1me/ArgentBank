@@ -13,8 +13,6 @@
     "server": "node ./server/server.js"
   },
   "dependencies": {
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
     "axios": "^0.19.2",
     "bcrypt": "^5.0.0",
     "cors": "^2.8.5",
@@ -22,6 +20,9 @@
     "express": "^4.17.1",
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^5.9.21",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-router-dom": "^6.23.0",
     "swagger-ui-express": "^4.1.4",
     "yamljs": "^0.3.0"
   },
@@ -35,12 +36,12 @@
     "eslint": "^8.57.0",
     "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-plugin-react-refresh": "^0.4.6",
+    "nodemon": "^2.0.4",
     "postcss": "^8.4.38",
     "prettier": "^3.2.5",
     "prettier-plugin-tailwindcss": "^0.5.14",
     "tailwindcss": "^3.4.3",
     "typescript": "^5.2.2",
-    "vite": "^5.2.0",
-    "nodemon": "^2.0.4"
+    "vite": "^5.2.0"
   }
 }
