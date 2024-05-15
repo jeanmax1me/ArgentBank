@@ -10,9 +10,17 @@ interface User {
   updatedAt: string;
 }
 
+interface ServerResponse {
+  status: number;
+  message: string;
+  body: User;
+}
+
 const FetchUserProfile: React.FC = () => {
   const [user, setUser] = useState<User | null>(null);
   const [error, setError] = useState<string | null>(null);
+
+  
 
   const fetchUserProfile = async () => {
     try {
@@ -26,14 +34,14 @@ const FetchUserProfile: React.FC = () => {
       }
 
       console.log('Sending GET request to fetch user profile');
-      const response = await axios.get<User>('http://localhost:3001/api/v1/user/profile', {
+      const response = await axios.get<ServerResponse>('http://localhost:3001/api/v1/user/profile', {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       });
       console.log('Response from server:', response.data);
 
-      setUser(response.data);
+      setUser(response.data.body);
       setError(null);
       console.log('User profile fetched successfully');
     } catch (error) {

@@ -20,4 +20,12 @@ router.put(
   userController.updateUserProfile
 );
 
+router.get(
+  '/profile',
+  validateToken, // Make sure validateToken is imported correctly
+  userController.getUserProfile
+);
+
+
+
 export default router;
