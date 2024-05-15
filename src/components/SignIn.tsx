@@ -13,7 +13,21 @@ const SignIn: React.FC = () => {
     event.preventDefault();
     try {
       const payload: LoginPayload = { email, password };
-      await dispatch(loginUser(payload)).unwrap();
+      console.log('Dispatching loginUser action with payload:', payload);
+  
+      const result = await dispatch(loginUser(payload)).unwrap();
+      console.log('Login successful, result:', result);
+  
+       // Check if the token is present in the result
+    if (result && result.body && result.body.token) {
+      console.log('JWT token:', result.body.token);
+    } else {
+      console.log('JWT token not found in the result');
+    }
+     // Check if the token is stored in localStorage
+     const tokenFromLocalStorage = localStorage.getItem('token');
+     console.log('Token from localStorage:', tokenFromLocalStorage);
+  
       navigate('/profile');
     } catch (error) {
       console.error('Login error:', error);
@@ -24,7 +38,7 @@ const SignIn: React.FC = () => {
       }
     }
   };
-
+  
 
 
 

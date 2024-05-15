@@ -2,6 +2,8 @@ import React from 'react';
 import { useSelector } from 'react-redux';
 import { RootState } from '../app/store';
 import { useNavigate } from 'react-router-dom';
+import FetchUserProfile from './FetchUserProfile';
+
 
 const ProfilePage: React.FC = () => {
   const { user, testData } = useSelector((state: RootState) => state.auth);
@@ -34,6 +36,7 @@ const ProfilePage: React.FC = () => {
         <p>No test data available.</p>
       )}
        <button onClick={handleGoToLogin} className="bg-sky-800 py-2 px-4 rounded-lg text-white">Go to Index</button>
+       <FetchUserProfile />
     </div>
   );
 };

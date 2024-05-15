@@ -1,5 +1,5 @@
-import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
-import axios from 'axios';
+import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
+import axios from "axios";
 
 interface User {
   _id: string;
@@ -29,30 +29,29 @@ export interface LoginPayload {
 
 // Define an async thunk to handle user login
 export const loginUser = createAsyncThunk<
-  { token: string },
+  { status: number; message: string; body: { token: string } },
   LoginPayload,
   { rejectValue: string }
->(
-  'auth/login',
-  async (payload, { rejectWithValue, dispatch }) => {
-    try {
-      const response = await axios.post<{ token: string }>(
-        'http://localhost:3001/api/v1/user/login',
-        payload
-      );
-           // Dispatch an action to set test data in the store
-           dispatch(setTestData({ message: 'Login successful' }));
-      return response.data;
-    } catch (error) {
-      return rejectWithValue('An unexpected error occurred');
-    }
-  }
-);
+>("auth/login", async (payload, { rejectWithValue, dispatch }) => {
+  try {
+    const response = await axios.post<{
+      status: number;
+      message: string;
+      body: { token: string };
+    }>("http://localhost:3001/api/v1/user/login", payload);
+    // Store the token in localStorage
+    localStorage.setItem("token", response.data.body.token);
 
+    dispatch(setTestData({ message: "Login successful" }));
+    return response.data;
+  } catch (error) {
+    return rejectWithValue("An unexpected error occurred");
+  }
+});
 
 // Create a slice to manage authentication state
 const authSlice = createSlice({
-  name: 'auth',
+  name: "auth",
   initialState: {
     user: null as User | null,
     token: null as string | null,
@@ -70,14 +69,27 @@ const authSlice = createSlice({
       state.loading = true;
       state.error = null;
     });
-    builder.addCase(loginUser.fulfilled, (state: AuthState , action: PayloadAction<{ token: string }>) => {
-      state.loading = false;
-      state.token = action.payload.token;
-    });
-    builder.addCase(loginUser.rejected, (state: AuthState, action: PayloadAction<string>) => {
-      state.loading = false;
-      state.error = action.payload as string;
-    });
+    builder.addCase(
+      loginUser.fulfilled,
+      (
+        state: AuthState,
+        action: PayloadAction<{
+          status: number;
+          message: string;
+          body: { token: string };
+        }>,
+      ) => {
+        state.loading = false;
+        state.token = action.payload.body.token;
+      },
+    );
+    builder.addCase(
+      loginUser.rejected,
+      (state: AuthState, action: PayloadAction<string>) => {
+        state.loading = false;
+        state.error = action.payload as string;
+      },
+    );
   },
 });
 

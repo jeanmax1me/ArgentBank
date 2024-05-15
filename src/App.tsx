@@ -1,14 +1,13 @@
 import React from "react";
-import { useNavigate } from 'react-router-dom';
-import { useSelector } from 'react-redux';
-import { RootState } from './app/store';
-import { Link } from 'react-router-dom';
-
+import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { RootState } from "./app/store";
+import { Link } from "react-router-dom";
 
 const MainNav: React.FC = () => {
   const navigate = useNavigate();
   const handleSignInClick = () => {
-    navigate('/sign-in'); // Navigate to the sign-in route
+    navigate("/sign-in"); // Navigate to the sign-in route
   };
   return (
     <nav className="main-nav">
@@ -86,16 +85,25 @@ const Features: React.FC = () => {
 
 const Footer: React.FC = () => {
   const { testData } = useSelector((state: RootState) => state.auth);
+  const tokenFromLocalStorage = localStorage.getItem("token");
+  console.log("Token from localStorage:", tokenFromLocalStorage);
+
   return (
-    <footer className="footer flex justify-center border-t-2 border-gray-400 pt-8">
-      <p className="footer-text">Copyright 2020 Argent Bank</p>
-      <h2 className="ml-4">Test Data</h2>
-      {testData ? (
-        <p>Test Data Message: {testData.message}</p>
-      ) : (
-        <p>No test data available.</p>
-      )}
-    </footer>
+    <>
+      <footer className="footer flex justify-center border-t-2 border-gray-400 pt-8">
+        <p className="footer-text">Copyright 2020 Argent Bank</p>
+        <h2 className="ml-4">Test Data</h2>
+        {testData ? (
+          <p>Test Data Message: {testData.message}</p>
+        ) : (
+          <p>No test data available.</p>
+        )}
+      </footer>
+      <h2 className="ml-4 ">Token from localStorage</h2>
+      <p>
+        {tokenFromLocalStorage || "No token found"}
+      </p>
+    </>
   );
 };
 
