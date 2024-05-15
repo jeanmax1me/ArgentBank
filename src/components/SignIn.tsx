@@ -1,47 +1,44 @@
-import { useState } from "react";
-import axios from "axios";
+import React, { useState } from "react";
+import { loginUser, LoginPayload } from '../app/authSlice';
+import { Link, useNavigate } from "react-router-dom";
+import { useAppDispatch } from '../app/hooks';
 
-interface Props {}
-
-const SignIn: React.FC<Props> = () => {
+const SignIn: React.FC = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const navigate = useNavigate();
+  const dispatch = useAppDispatch();
 
   const handleFormSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
     try {
-      console.log('Sending login request with data:', { email, password });
-  
-      const response = await axios.post('http://localhost:3001/api/v1/user/login', { email, password });
-      console.log('Response:', response.data);
-  
-      if (response.data && response.data.body && response.data.body.token) {
-        const { token } = response.data.body;
-        console.log('Login successful! Token:', token);
-        // Handle successful login (e.g., store token and redirect)
-      } else {
-        console.error('Login failed: Token not found in response');
-        alert('Login failed: Token not found in response');
-      }
+      const payload: LoginPayload = { email, password };
+      await dispatch(loginUser(payload)).unwrap();
+      navigate('/profile');
     } catch (error) {
       console.error('Login error:', error);
-      alert('Invalid email or password');
+      if (typeof error === 'string') {
+        alert(error);
+      } else {
+        alert('An unknown error occurred');
+      }
     }
   };
-  
-  
+
+
+
 
   return (
     <div className="main-container">
       <nav className="main-nav">
-        <a className="main-nav-logo" href="/">
+         <Link className="main-nav-logo" to="/">
           <img
             className="main-nav-logo-image"
             src="/img/argentBankLogo.png"
             alt="Argent Bank Logo"
           />
           <h1 className="sr-only">Argent Bank</h1>
-        </a>
+        </Link>
         <div>
           <a className="main-nav-item" href="/sign-in">
             <i className="fa fa-user-circle"></i>
