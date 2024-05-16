@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 interface User {
   _id: string;
@@ -19,10 +19,10 @@ interface ServerResponse {
 
 const FetchUserProfile: React.FC = () => {
   const [user, setUser] = useState<User | null>(null);
-  const [error, setError] = useState<string | null>(null);
   const [editedFirstName, setEditedFirstName] = useState('');
   const [editedLastName, setEditedLastName] = useState('');
   const [isEditing, setIsEditing] = useState(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchUserProfile = async () => {
@@ -31,7 +31,6 @@ const FetchUserProfile: React.FC = () => {
         console.log('Token from localStorage:', token);
 
         if (!token) {
-          setError('No token found in localStorage');
           console.log('No token found in localStorage');
           return;
         }
@@ -45,11 +44,9 @@ const FetchUserProfile: React.FC = () => {
         console.log('Response from server:', response.data);
 
         setUser(response.data.body);
-        setError(null);
         console.log('User profile fetched successfully');
       } catch (error) {
         console.error('Error fetching user profile:', error);
-        setError('Failed to fetch user profile');
         setUser(null);
         console.log('Failed to fetch user profile');
       }
@@ -68,7 +65,6 @@ const FetchUserProfile: React.FC = () => {
     try {
       const token = localStorage.getItem('token');
       if (!token) {
-        setError('No token found in localStorage');
         console.log('No token found in localStorage');
         return;
       }
@@ -88,11 +84,9 @@ const FetchUserProfile: React.FC = () => {
   
       console.log('Profile updated successfully:', response.data);
       setUser(response.data.body);
-      setError(null);
       setIsEditing(false);
     } catch (error) {
       console.error('Error updating profile:', error);
-      setError('Failed to update profile');
     }
   };
   
@@ -100,27 +94,37 @@ const FetchUserProfile: React.FC = () => {
     setIsEditing(false);
   };
  
+  const handleSignOut = () => {
+    console.log('Signing out...');
+    localStorage.removeItem('token');
+    console.log('Token removed from localStorage');
+    setUser(null);
+    console.log('User state cleared');
+    navigate('/');
+    console.log('Navigated to the index page');
+  };
+
 
   return (
     <>
       <nav className="main-nav">
-        <a className="main-nav-logo" href="/">
+        <Link className="main-nav-logo" to="/">
           <img
             className="main-nav-logo-image"
             src="./img/argentBankLogo.png"
             alt="Argent Bank Logo"
           />
           <h1 className="sr-only">Argent Bank</h1>
-        </a>
+        </Link>
         <div>
           <Link className="main-nav-item" to="/user">
             <i className="fa fa-user-circle"></i>
             {user?.firstName}
           </Link>
-          <a className="main-nav-item" href="/">
+          <button className="main-nav-item" onClick={handleSignOut}>
             <i className="fa fa-sign-out"></i>
             Sign Out
-          </a>
+          </button>
         </div>
       </nav>
       <main className="main bg-dark min-h-[calc(100vh-150px)]">
