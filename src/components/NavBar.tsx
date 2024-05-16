@@ -26,7 +26,7 @@ const NavBar: React.FC = () => {
       <div>
         {user ? (
           <>
-            <Link className="main-nav-item" to="/user">
+            <Link className="main-nav-item" to="/profile">
               <i className="fa fa-user-circle"></i>
               {user.firstName}
             </Link>

@@ -10,16 +10,12 @@ interface User {
   updatedAt: string;
 }
 
-interface TestData {
-  message: string;
-}
 
 interface AuthState {
   user: User | null;
   token: string | null;
   error: string | null;
   loading: boolean;
-  testData: TestData | null;
 }
 
 export interface LoginPayload {
@@ -41,8 +37,6 @@ export const loginUser = createAsyncThunk<
     }>("http://localhost:3001/api/v1/user/login", payload);
     // Store the token in localStorage
     localStorage.setItem("token", response.data.body.token);
-
-    dispatch(setTestData({ message: "Login successful" }));
     return response.data;
   } catch (error) {
     dispatch(setError("An unexpected error occurred"));
@@ -58,12 +52,8 @@ const authSlice = createSlice({
     token: null as string | null,
     error: null as string | null,
     loading: false,
-    testData: null as TestData | null,
   } as AuthState,
   reducers: {
-    setTestData: (state, action: PayloadAction<TestData>) => {
-      state.testData = action.payload;
-    },
     setUser: (state, action: PayloadAction<User | null>) => {
       state.user = action.payload;
     },
@@ -95,4 +85,4 @@ const authSlice = createSlice({
 
 // Export the slice and actions
 export const { reducer: authReducer, actions: authActions } = authSlice;
-export const { setTestData, setUser, setError } = authActions;
+export const { setUser, setError } = authActions;

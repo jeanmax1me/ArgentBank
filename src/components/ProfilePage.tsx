@@ -152,13 +152,13 @@ const FetchUserProfile: React.FC = () => {
               </div>
               <div className="flex items-center justify-center gap-6 pt-6">
                 <button
-                  className="w-[140px] rounded-sm bg-white px-2 py-2 font-semibold text-blue-700 outline outline-2 outline-blue-700"
+                  className="w-[140px] rounded-sm bg-white px-2 py-2 font-semibold text-green-500 outline outline-2 outline-green-700"
                   onClick={handleSaveProfile}
                 >
                   Save
                 </button>
                 <button
-                  className="w-[140px] rounded-sm bg-white px-2 py-2 font-semibold text-blue-700 outline outline-2 outline-blue-700"
+                  className="w-[140px] rounded-sm bg-white px-2 py-2 font-semibold text-green-500 outline outline-2 outline-green-700"
                   onClick={handleCancelEdit}
                 >
                   Cancel
