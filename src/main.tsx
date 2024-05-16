@@ -2,7 +2,6 @@ import { createRoot } from "react-dom/client";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import SignIn from "./components/SignIn";
 import Home from "./App";
-import User from "./components/User";
 import "./index.css";
 import { Provider } from "react-redux";
 import { store } from "./app/store";
@@ -27,10 +26,6 @@ function renderApp() {
     {
       path: "/sign-in",
       element: <SignIn />,
-    },
-    {
-      path: "/user",
-      element: <User />,
     },
     {
 path: "/profile",
