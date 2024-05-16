@@ -24,21 +24,21 @@ function renderApp() {
       element: <Home />,
     },
     {
-      path: "/sign-in",
+      path: "/login",
       element: <SignIn />,
     },
     {
-path: "/profile",
-element: <ProfilePage />,
+      path: "/profile",
+      element: <ProfilePage />,
     },
   ]);
 
   createRoot(rootElement).render(
     <React.StrictMode>
-    <Provider store={store}>
-      <RouterProvider router={router}></RouterProvider>
-    </Provider>
-    </React.StrictMode>
+      <Provider store={store}>
+        <RouterProvider router={router}></RouterProvider>
+      </Provider>
+    </React.StrictMode>,
   );
 }
 

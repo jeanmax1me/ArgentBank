@@ -45,6 +45,7 @@ export const loginUser = createAsyncThunk<
     dispatch(setTestData({ message: "Login successful" }));
     return response.data;
   } catch (error) {
+    dispatch(setError("An unexpected error occurred"));
     return rejectWithValue("An unexpected error occurred");
   }
 });
@@ -62,6 +63,12 @@ const authSlice = createSlice({
   reducers: {
     setTestData: (state, action: PayloadAction<TestData>) => {
       state.testData = action.payload;
+    },
+    setUser: (state, action: PayloadAction<User | null>) => {
+      state.user = action.payload;
+    },
+    setError: (state, action: PayloadAction<string>) => {
+      state.error = action.payload;
     },
   },
   extraReducers: (builder) => {
@@ -82,17 +89,10 @@ const authSlice = createSlice({
         state.loading = false;
         state.token = action.payload.body.token;
       },
-    );
-    builder.addCase(
-      loginUser.rejected,
-      (state: AuthState, action: PayloadAction<string>) => {
-        state.loading = false;
-        state.error = action.payload as string;
-      },
-    );
+    );   
   },
 });
 
 // Export the slice and actions
 export const { reducer: authReducer, actions: authActions } = authSlice;
-export const { setTestData } = authActions;
+export const { setTestData, setUser, setError } = authActions;
