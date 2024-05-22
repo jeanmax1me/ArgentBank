@@ -10,7 +10,6 @@ interface User {
   updatedAt: string;
 }
 
-
 interface AuthState {
   user: User | null;
   token: string | null;
@@ -60,6 +59,9 @@ const authSlice = createSlice({
     setError: (state, action: PayloadAction<string>) => {
       state.error = action.payload;
     },
+    setToken: (state, action: PayloadAction<string | null>) => {
+      state.token = action.payload;
+    },
   },
   extraReducers: (builder) => {
     builder.addCase(loginUser.pending, (state: AuthState) => {
@@ -79,10 +81,10 @@ const authSlice = createSlice({
         state.loading = false;
         state.token = action.payload.body.token;
       },
-    );   
+    );
   },
 });
 
 // Export the slice and actions
 export const { reducer: authReducer, actions: authActions } = authSlice;
-export const { setUser, setError } = authActions;
+export const { setUser, setError, setToken } = authActions;

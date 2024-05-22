@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
-import { setUser } from "../app/authSlice";
+import { setUser, setToken } from "../app/authSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../app/store"; // Import the RootState type
 
@@ -26,7 +26,7 @@ const FetchUserProfile: React.FC = () => {
   const [isEditing, setIsEditing] = useState(false);
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const user = useSelector((state: RootState) => state.auth.user); 
+  const user = useSelector((state: RootState) => state.auth.user);
 
   useEffect(() => {
     const fetchUserProfile = async () => {
@@ -36,7 +36,7 @@ const FetchUserProfile: React.FC = () => {
 
         if (!token) {
           console.log("No token found in localStorage");
-          return;
+          navigate("/"); // Redirect to index if no token
         }
 
         console.log("Sending GET request to fetch user profile");
@@ -58,7 +58,7 @@ const FetchUserProfile: React.FC = () => {
     };
 
     fetchUserProfile();
-  }, [dispatch]);
+  }, [dispatch, navigate]);
 
   const handleEdit = () => {
     setEditedFirstName(user?.firstName || "");
@@ -103,7 +103,9 @@ const FetchUserProfile: React.FC = () => {
     console.log("Signing out...");
     localStorage.removeItem("token");
     console.log("Token removed from localStorage");
-    dispatch(setUser(null)); // Set the user to null in the Redux store
+    dispatch(setUser(null)); // Clear the user in Redux store
+    dispatch(setToken(null)); // Clear the token in Redux store
+    console.log("User state cleared");
     console.log("User state cleared");
     navigate("/");
     console.log("Navigated to the index page");
@@ -121,7 +123,7 @@ const FetchUserProfile: React.FC = () => {
           <h1 className="sr-only">Argent Bank</h1>
         </Link>
         <div>
-          <Link className="main-nav-item" to="/user">
+          <Link className="main-nav-item" to="/profile">
             <i className="fa fa-user-circle"></i>
             {user?.firstName}
           </Link>
